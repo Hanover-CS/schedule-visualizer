@@ -6,8 +6,6 @@ import edu.hanover.schedulevisualizer.core.entity.Weekday;
 
 import java.util.List;
 
-import static edu.hanover.schedulevisualizer.core.entity.Weekday.TR;
-
 class TimeSlotHandler extends TimeSlotCombiner<TimeSlot> {
     EntityFactory ef;
     public TimeSlotHandler(EntityFactory ef) {
@@ -21,10 +19,10 @@ class TimeSlotHandler extends TimeSlotCombiner<TimeSlot> {
 
     @Override
     protected TimeSlot combineWithBothAssigned(List<Weekday> wkd1, Integer sn1, List<Weekday> wkd2, Integer sn2) {
-        if (wkd2.getFirst().isTR() && wkd1.getFirst().isTR()) {
+        if (wkd2.get(0).isTR() && wkd1.get(0).isTR()) {
             return ef.makeHCTimeSlot(wkd1, sn2);
         }
-        if (!wkd2.getFirst().isTR() && !wkd1.getFirst().isTR()) {
+        if (!wkd2.get(0).isTR() && !wkd1.get(0).isTR()) {
             return ef.makeHCTimeSlot(wkd1, sn2);
         }
         return ef.makeHCTimeSlot(wkd2, sn2);
@@ -32,11 +30,8 @@ class TimeSlotHandler extends TimeSlotCombiner<TimeSlot> {
 
     @Override
     protected TimeSlot combineWithFirstUnassignedSecondAssigned(List<Weekday> weekdays2, Integer slotnum2) {
-        if (weekdays2.getFirst().isTR()) {
-            weekdays2 = Weekday.TR();
-        } if(!weekdays2.getFirst().isTR()) {
-            weekdays2 = Weekday.MWF();
-        }
+        if (weekdays2.get(0).isTR()) weekdays2 = Weekday.TR();
+        if(!weekdays2.get(0).isTR()) weekdays2 = Weekday.MWF();
         return ef.makeHCTimeSlot(weekdays2, slotnum2);
     }
 
