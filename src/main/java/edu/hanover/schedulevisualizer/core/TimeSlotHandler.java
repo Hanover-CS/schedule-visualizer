@@ -19,11 +19,15 @@ class TimeSlotHandler extends TimeSlotCombiner<TimeSlot> {
 
     @Override
     protected TimeSlot combineWithBothAssigned(List<Weekday> wkd1, Integer sn1, List<Weekday> wkd2, Integer sn2) {
-        if (wkd2.get(0).isTR() && wkd1.get(0).isTR()) {
-            return ef.makeHCTimeSlot(wkd1, sn2);
+        if (wkd2.get(0).isTR()) {
+            if (wkd1.get(0).isTR()) {
+                return ef.makeHCTimeSlot(wkd1, sn2);
+            }
         }
-        if (!wkd2.get(0).isTR() && !wkd1.get(0).isTR()) {
-            return ef.makeHCTimeSlot(wkd1, sn2);
+        if (!wkd2.get(0).isTR()) {
+            if (!wkd1.get(0).isTR()) {
+                return ef.makeHCTimeSlot(wkd1, sn2);
+            }
         }
         return ef.makeHCTimeSlot(wkd2, sn2);
     }
